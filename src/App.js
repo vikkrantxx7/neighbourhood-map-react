@@ -2,7 +2,13 @@ import React, { Component } from 'react';
 import './App.css';
 
 class App extends Component {
+
+  state = {
+    venues: []
+  }
+
   componentDidMount() {
+    this.getNearbyVenues()
     this.loadMap()
   }
 
@@ -14,6 +20,18 @@ class App extends Component {
     script.async = true
     script.defer = true
     index.parentNode.insertBefore(script, index)
+  }
+
+  getNearbyVenues = () => {
+    window.fetch('https://api.foursquare.com/v2/venues/explore?client_id=LRQXKPJ21ZWDLMSIF0A3QI2H23EBUFZM2WE0WTHL2CMIILBC&client_secret=NAHU30SNZJMVDM2SBG33ZTVAP1K5LBUJOKTSH3PDTI4KCHNI&v=20180323&ll=17.422937,78.6400627&radius=8000').then(response => {
+      return response.json()
+    }).then(json => {
+      this.setState({
+        venues: json.response.groups[0].items
+      })
+    }).catch(error => {
+      console.log(error)
+    })
   }
 
   initMap = () => {
