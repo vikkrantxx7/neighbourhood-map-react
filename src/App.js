@@ -9,7 +9,6 @@ class App extends Component {
 
   componentDidMount() {
     this.getNearbyVenues()
-    this.loadMap()
   }
 
   loadMap = () => {
@@ -29,16 +28,33 @@ class App extends Component {
       this.setState({
         venues: json.response.groups[0].items
       })
+      this.loadMap()
     }).catch(error => {
       console.log(error)
     })
   }
 
   initMap = () => {
+    var markers = [], bounds = new window.google.maps.LatLngBounds(), infoWindow = new window.google.maps.InfoWindow()
     var map = new window.google.maps.Map(document.getElementById('map'), {
       center: {lat: 17.422937, lng: 78.6400627},
       zoom: 14
     });
+
+    markers = this.state.venues.map(venue => {
+      var marker = new window.google.maps.Marker({
+        position: {lat: venue.venue.location.lat, lng: venue.venue.location.lng},
+        map: map,
+        animation: window.google.maps.Animation.DROP
+      })
+      marker.addListener('click', () => {
+        infoWindow.setContent(venue.venue.name)
+        infoWindow.open(map, marker)
+      })
+      bounds.extend(marker.position)
+      return marker
+    })
+    map.fitBounds(bounds)
   }
 
   render() {
