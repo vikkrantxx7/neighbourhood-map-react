@@ -23,7 +23,16 @@
 }
 
 #map {
-  height: 100vh;
+  height: calc(100vh - 60px);
+}
+
+#sidebar {
+  background-color: rgba(173, 249, 252, 0.829);
+  position: absolute;
+  z-index: 100;
+  width: 325px;
+  max-width: 100%;
+  height: calc(100vh - 60px);
 }
 
 @keyframes App-logo-spin {

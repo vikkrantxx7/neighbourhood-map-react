@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import Sidebar from './Sidebar'
 import './App.css';
 
 class App extends Component {
 
   state = {
-    venues: []
+    venues: [],
+    markers: []
   }
 
   componentDidMount() {
@@ -19,6 +21,16 @@ class App extends Component {
     script.async = true
     script.defer = true
     index.parentNode.insertBefore(script, index)
+  }
+
+  filterVenues = (query) => {
+    this.state.markers.forEach(marker => {
+      if(!marker.title.toLowerCase().includes(query.toLowerCase())){
+        marker.setVisible(false)
+      } else {
+        marker.setVisible(true)
+      }
+    })
   }
 
   getNearbyVenues = () => {
@@ -45,7 +57,8 @@ class App extends Component {
       var marker = new window.google.maps.Marker({
         position: {lat: venue.venue.location.lat, lng: venue.venue.location.lng},
         map: map,
-        animation: window.google.maps.Animation.DROP
+        animation: window.google.maps.Animation.DROP,
+        title: venue.venue.name
       })
       marker.addListener('click', () => {
         infoWindow.setContent(venue.venue.name)
@@ -54,14 +67,22 @@ class App extends Component {
       bounds.extend(marker.position)
       return marker
     })
+
+    this.setState({
+      markers
+    })
+
     map.fitBounds(bounds)
   }
 
   render() {
     return (
-      <main>
-        <div id="map"></div>
-      </main>
+      <div>
+        <Sidebar filterVenues={this.filterVenues}/>
+        <main>
+          <div id="map"></div>
+        </main>
+      </div>
     );
   }
 }
