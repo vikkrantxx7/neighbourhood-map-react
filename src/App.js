@@ -6,7 +6,8 @@ class App extends Component {
 
   state = {
     venues: [],
-    markers: []
+    markers: [],
+    filteredVenues: []
   }
 
   componentDidMount() {
@@ -24,6 +25,9 @@ class App extends Component {
   }
 
   filterVenues = (query) => {
+    this.setState({
+      filteredVenues: query ? this.state.venues.filter(venue => venue.venue.name.includes(query)) : this.state.venues
+    },() => console.log("Showing ", this.state.filteredVenues.length, " places."))
     this.state.markers.forEach(marker => {
       if(!marker.title.toLowerCase().includes(query.toLowerCase())){
         marker.setVisible(false)
@@ -34,12 +38,14 @@ class App extends Component {
   }
 
   getNearbyVenues = () => {
-    window.fetch('https://api.foursquare.com/v2/venues/explore?client_id=LRQXKPJ21ZWDLMSIF0A3QI2H23EBUFZM2WE0WTHL2CMIILBC&client_secret=NAHU30SNZJMVDM2SBG33ZTVAP1K5LBUJOKTSH3PDTI4KCHNI&v=20180323&ll=17.422937,78.6400627&radius=8000').then(response => {
+    window.fetch('https://api.foursquare.com/v2/venues/explore?client_id=LRQXKPJ21ZWDLMSIF0A3QI2H23EBUFZM2WE0WTHL2CMIILBC&client_secret=NAHU30SNZJMVDM2SBG33ZTVAP1K5LBUJOKTSH3PDTI4KCHNI&v=20180323&ll=40.7119296,-74.0070999&radius=8000').then(response => {
       return response.json()
     }).then(json => {
+      console.log(json.response.groups[0].items)
       this.setState({
-        venues: json.response.groups[0].items
-      })
+        venues: json.response.groups[0].items,
+        filteredVenues: json.response.groups[0].items
+      },() => console.log("Showing ", this.state.filteredVenues.length, " places."))
       this.loadMap()
     }).catch(error => {
       console.log(error)
@@ -49,7 +55,7 @@ class App extends Component {
   initMap = () => {
     var markers = [], bounds = new window.google.maps.LatLngBounds(), infoWindow = new window.google.maps.InfoWindow()
     var map = new window.google.maps.Map(document.getElementById('map'), {
-      center: {lat: 17.422937, lng: 78.6400627},
+      center: {lat: 17.422316, lng: 78.4741774},
       zoom: 14
     });
 
@@ -61,7 +67,13 @@ class App extends Component {
         title: venue.venue.name
       })
       marker.addListener('click', () => {
-        infoWindow.setContent(venue.venue.name)
+        marker.setAnimation(window.google.maps.Animation.BOUNCE)
+        setTimeout(() => {
+          marker.setAnimation(null)
+        }, 1000)
+        infoWindow.setContent(this.populateContent(venue))
+        map.setZoom(15)
+        map.setCenter(marker.position)
         infoWindow.open(map, marker)
       })
       bounds.extend(marker.position)
@@ -75,10 +87,17 @@ class App extends Component {
     map.fitBounds(bounds)
   }
 
+  populateContent = (venue) => {
+    return '<div>' +
+    '<h4>' + venue.venue.name + '</h4>' +
+    '<p>' + venue.venue.location.formattedAddress.join('<br>') + '</p>' +
+    '</div>'
+  }
+
   render() {
     return (
       <div>
-        <Sidebar filterVenues={this.filterVenues}/>
+        <Sidebar filterVenues={this.filterVenues} filteredVenues={this.state.filteredVenues}/>
         <main>
           <div id="map"></div>
         </main>
