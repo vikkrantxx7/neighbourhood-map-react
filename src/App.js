@@ -41,7 +41,6 @@ class App extends Component {
     window.fetch('https://api.foursquare.com/v2/venues/explore?client_id=LRQXKPJ21ZWDLMSIF0A3QI2H23EBUFZM2WE0WTHL2CMIILBC&client_secret=NAHU30SNZJMVDM2SBG33ZTVAP1K5LBUJOKTSH3PDTI4KCHNI&v=20180323&near=hyderabad').then(response => {
       return response.json()
     }).then(json => {
-      console.log(json.response.groups[0].items)
       this.setState({
         venues: json.response.groups[0].items,
         filteredVenues: json.response.groups[0].items
@@ -64,7 +63,8 @@ class App extends Component {
         position: {lat: venue.venue.location.lat, lng: venue.venue.location.lng},
         map: map,
         animation: window.google.maps.Animation.DROP,
-        title: venue.venue.name
+        title: venue.venue.name,
+        id: venue.venue.id
       })
       marker.addListener('click', () => {
         marker.setAnimation(window.google.maps.Animation.BOUNCE)
@@ -87,6 +87,11 @@ class App extends Component {
     map.fitBounds(bounds)
   }
 
+  clickList = (venue) => {
+    var marker = this.state.markers.filter(marker => marker.id === venue.venue.id)[0]
+    window.google.maps.event.trigger(marker,'click')
+  }
+
   populateContent = (venue) => {
     return '<div>' +
     '<h4>' + venue.venue.name + '</h4>' +
@@ -97,7 +102,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Sidebar filterVenues={this.filterVenues} filteredVenues={this.state.filteredVenues}/>
+        <Sidebar filterVenues={this.filterVenues} filteredVenues={this.state.filteredVenues} clickList={this.clickList}/>
         <main>
           <div id="map"></div>
         </main>

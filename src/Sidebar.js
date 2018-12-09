@@ -7,7 +7,7 @@ class Sidebar extends Component {
                 <label>Filter: <input placeholder="Type your query" onChange={(e) => {this.props.filterVenues(e.target.value)}}/></label>
                 <ul id="side-list">
                     {this.props.filteredVenues.map(filtered => {
-                        return  <li key={filtered.venue.id}>
+                        return  <li key={filtered.venue.id} onClick={() => this.props.clickList(filtered)}>
                                     <div>
                                     <h3><strong>{filtered.venue.name}</strong></h3>
                                     </div>
