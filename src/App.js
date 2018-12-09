@@ -26,7 +26,7 @@ class App extends Component {
 
   filterVenues = (query) => {
     this.setState({
-      filteredVenues: query ? this.state.venues.filter(venue => venue.venue.name.includes(query)) : this.state.venues
+      filteredVenues: query ? this.state.venues.filter(venue => venue.venue.name.toLowerCase().includes(query.toLowerCase())) : this.state.venues
     },() => console.log("Showing ", this.state.filteredVenues.length, " places."))
     this.state.markers.forEach(marker => {
       if(!marker.title.toLowerCase().includes(query.toLowerCase())){
@@ -38,7 +38,7 @@ class App extends Component {
   }
 
   getNearbyVenues = () => {
-    window.fetch('https://api.foursquare.com/v2/venues/explore?client_id=LRQXKPJ21ZWDLMSIF0A3QI2H23EBUFZM2WE0WTHL2CMIILBC&client_secret=NAHU30SNZJMVDM2SBG33ZTVAP1K5LBUJOKTSH3PDTI4KCHNI&v=20180323&ll=40.7119296,-74.0070999&radius=8000').then(response => {
+    window.fetch('https://api.foursquare.com/v2/venues/explore?client_id=LRQXKPJ21ZWDLMSIF0A3QI2H23EBUFZM2WE0WTHL2CMIILBC&client_secret=NAHU30SNZJMVDM2SBG33ZTVAP1K5LBUJOKTSH3PDTI4KCHNI&v=20180323&near=hyderabad').then(response => {
       return response.json()
     }).then(json => {
       console.log(json.response.groups[0].items)
