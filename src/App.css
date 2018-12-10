@@ -44,22 +44,30 @@
   width: fit-content;
 }
 
-#navbar div {
+#toggle-nav {
   font-size: 25px;
   display: inline-block;
   width: 50px;
   height: 60px;
+  text-align: center;
+  cursor: pointer;
+}
+
+#toggle-nav span {
+  line-height: 60px;
 }
 
 #sidebar {
   background-color: rgba(255, 255, 255, 0.829);
   position: absolute;
+  left: -400px;
   z-index: 100;
   width: 325px;
   max-width: 100%;
   height: calc(100vh - 60px);
   padding-top: 15px;
   box-sizing: border-box;
+  transition: all 0.4s;
 }
 
 #sidebar label {

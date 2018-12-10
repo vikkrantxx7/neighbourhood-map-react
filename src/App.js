@@ -20,7 +20,10 @@ class App extends Component {
     this.setState({
       toggleVal: !value
     })
-    window.document.getElementById('sidebar').style.left = -400
+    if(this.state.toggleVal)
+      window.document.getElementById('sidebar').style.left = '0px'
+    else
+      window.document.getElementById('sidebar').style.left = '-400px'
   }
 
   loadMap = () => {
