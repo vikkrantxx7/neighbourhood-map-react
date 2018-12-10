@@ -77,6 +77,16 @@
 
 #sidebar label {
   margin-left: 40px;
+  font-size: 18px;
+  font-weight: 550
+}
+
+#sidebar label>input:hover {
+  transition: all 0.5s
+}
+
+#sidebar label>input:hover {
+  box-shadow: 0 0 2px 1px rgba(35, 37, 37, 0.411);
 }
 
 #side-list {
@@ -91,6 +101,7 @@
 }
 
 #side-list li:hover {
+  box-shadow: -3px 0 0 0 rgb(241, 12, 4);
   text-shadow: 4px 4px 3px rgba(39, 44, 43, 0.438);
 }
 
