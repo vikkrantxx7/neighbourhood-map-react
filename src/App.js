@@ -8,11 +8,19 @@ class App extends Component {
   state = {
     venues: [],
     markers: [],
-    filteredVenues: []
+    filteredVenues: [],
+    toggleVal: true
   }
 
   componentDidMount() {
     this.getNearbyVenues()
+  }
+
+  toggleSidebar = (value) => {
+    this.setState({
+      toggleVal: !value
+    })
+    window.document.getElementById('sidebar').style.left = -400
   }
 
   loadMap = () => {
@@ -100,7 +108,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Navbar />
+        <Navbar toggleSidebar={this.toggleSidebar} toggleVal={this.state.toggleVal}/>
         <Sidebar filterVenues={this.filterVenues} filteredVenues={this.state.filteredVenues} clickList={this.clickList}/>
         <main>
           <div id="map"></div>

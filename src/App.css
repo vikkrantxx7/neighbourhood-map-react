@@ -44,13 +44,11 @@
   width: fit-content;
 }
 
-#navbar span {
+#navbar div {
   font-size: 25px;
   display: inline-block;
   width: 50px;
   height: 60px;
-  line-height: 60px;
-  text-align: center;
 }
 
 #sidebar {
