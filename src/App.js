@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Sidebar from './Sidebar'
+import Navbar from './Navbar'
 import './App.css';
 
 class App extends Component {
@@ -57,7 +58,6 @@ class App extends Component {
       center: {lat: 17.422316, lng: 78.4741774},
       zoom: 14
     });
-
     markers = this.state.venues.map(venue => {
       var marker = new window.google.maps.Marker({
         position: {lat: venue.venue.location.lat, lng: venue.venue.location.lng},
@@ -79,11 +79,9 @@ class App extends Component {
       bounds.extend(marker.position)
       return marker
     })
-
     this.setState({
       markers
     })
-
     map.fitBounds(bounds)
   }
 
@@ -102,6 +100,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <Navbar />
         <Sidebar filterVenues={this.filterVenues} filteredVenues={this.state.filteredVenues} clickList={this.clickList}/>
         <main>
           <div id="map"></div>

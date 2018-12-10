@@ -26,6 +26,33 @@
   height: calc(100vh - 60px);
 }
 
+#navbar {
+  background-color: rgb(20, 19, 19);
+  color: aliceblue;
+  height: 60px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+}
+
+#navbar h1 {
+  height: 60px;
+  line-height: 60px;
+  margin: auto;
+  display: inline-block;
+  text-align: center;
+  width: fit-content;
+}
+
+#navbar span {
+  font-size: 25px;
+  display: inline-block;
+  width: 50px;
+  height: 60px;
+  line-height: 60px;
+  text-align: center;
+}
+
 #sidebar {
   background-color: rgba(173, 249, 252, 0.829);
   position: absolute;
@@ -37,6 +64,12 @@
 
 #side-list {
   list-style-type: none;
+}
+
+@media screen and (max-width: 400px) {
+  #navbar h1 {
+    font-size: 20px;
+  }
 }
 
 @keyframes App-logo-spin {
