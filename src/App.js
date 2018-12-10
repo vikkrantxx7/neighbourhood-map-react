@@ -30,7 +30,7 @@ class App extends Component {
     window.initMap = this.initMap
     var index = window.document.getElementsByTagName('script')[0]
     var script = window.document.createElement('script')
-    script.src = "https://maps.googleapis.com/maps/api/js?key=AIzaSyB9ggWWErnMrBBV2581LSTZVWxhB7BbylQ&callback=initMap"
+    script.src = "https://maps.googleapis.com/maps/api/js?libraries=geometry&key=AIzaSyB9ggWWErnMrBBV2581LSTZVWxhB7BbylQ&callback=initMap"
     script.async = true
     script.defer = true
     index.parentNode.insertBefore(script, index)
@@ -50,7 +50,7 @@ class App extends Component {
   }
 
   getNearbyVenues = () => {
-    window.fetch('https://api.foursquare.com/v2/venues/explore?client_id=LRQXKPJ21ZWDLMSIF0A3QI2H23EBUFZM2WE0WTHL2CMIILBC&client_secret=NAHU30SNZJMVDM2SBG33ZTVAP1K5LBUJOKTSH3PDTI4KCHNI&v=20180323&near=hyderabad').then(response => {
+    window.fetch('https://api.foursquare.com/v2/venues/explore?client_id=LRQXKPJ21ZWDLMSIF0A3QI2H23EBUFZM2WE0WTHL2CMIILBC&client_secret=NAHU30SNZJMVDM2SBG33ZTVAP1K5LBUJOKTSH3PDTI4KCHNI&v=20180323&near=NYC').then(response => {
       return response.json()
     }).then(json => {
       this.setState({
@@ -82,10 +82,7 @@ class App extends Component {
         setTimeout(() => {
           marker.setAnimation(null)
         }, 1000)
-        infoWindow.setContent(this.populateContent(venue))
-        map.setZoom(15)
-        map.setCenter(marker.position)
-        infoWindow.open(map, marker)
+        populateInfowindow(marker, infoWindow, venue)
       })
       bounds.extend(marker.position)
       return marker
@@ -94,18 +91,43 @@ class App extends Component {
       markers
     })
     map.fitBounds(bounds)
+
+    function populateInfowindow(marker, infoWindow, venue) {
+      var streetViewService = new window.google.maps.StreetViewService()
+      var radius = 50
+      function getStreetView(data, status) {
+        if(status === window.google.maps.StreetViewStatus.OK) {
+          var nearStreetViewLocation = data.location.latLng
+          var heading = window.google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position)
+          infoWindow.setContent('<div>' +
+            '<h4>' + venue.venue.name + '</h4>' +
+            '<p>' + venue.venue.location.formattedAddress.join('<br>') + '</p>' +
+            '</div><div id="pano"></div>')
+          var panoramaOptions = {
+            position: nearStreetViewLocation,
+            pov: {
+              heading: heading,
+              pitch: 30
+            }
+          }
+          new window.google.maps.StreetViewPanorama(window.document.getElementById('pano'), panoramaOptions)
+        } else {
+          infoWindow.setContent('<div>' +
+            '<h4>' + venue.venue.name + '</h4>' +
+            '<p>' + venue.venue.location.formattedAddress.join('<br>') + '</p>' +
+            '</div>')
+        }
+      }
+      streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView)
+      map.setZoom(15)
+      map.setCenter(marker.position)
+      infoWindow.open(map, marker)
+    }
   }
 
   clickList = (venue) => {
     var marker = this.state.markers.filter(marker => marker.id === venue.venue.id)[0]
     window.google.maps.event.trigger(marker,'click')
-  }
-
-  populateContent = (venue) => {
-    return '<div>' +
-    '<h4>' + venue.venue.name + '</h4>' +
-    '<p>' + venue.venue.location.formattedAddress.join('<br>') + '</p>' +
-    '</div>'
   }
 
   render() {
