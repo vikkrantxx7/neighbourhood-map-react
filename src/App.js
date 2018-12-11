@@ -14,10 +14,12 @@ class App extends Component {
     toggleVal: true //flag to toggle sidebar and close button
   }
 
+  //get nearby venues on component mount
   componentDidMount() {
     this.getNearbyVenues()
   }
 
+  //show/hide the sidebar
   toggleSidebar = (value) => {
     this.setState({
       toggleVal: !value
@@ -28,6 +30,7 @@ class App extends Component {
       window.document.getElementById('sidebar').style.left = '-400px'
   }
 
+  //load the google map api asynchronously by creating and putting script tag
   loadMap = () => {
     window.initMap = this.initMap
     var index = window.document.getElementsByTagName('script')[0]
@@ -38,8 +41,10 @@ class App extends Component {
     index.parentNode.insertBefore(script, index)
   }
 
-  filterVenues = (inputVal) => {
-    var query = inputVal.trim()
+  //show/hide markers passing the query and create filteredVenues list that includes only those
+  //venues whose name includes the provided query
+  filterVenues = (query) => {
+    query = query.trim()
     this.setState({
       query,
       filteredVenues: query ? this.state.venues.filter(venue => venue.venue.name.toLowerCase().includes(query.toLowerCase())) : this.state.venues
@@ -53,6 +58,7 @@ class App extends Component {
     })
   }
 
+  //get all the nearby venues using FourSquare API. It returns 30 results.
   getNearbyVenues = () => {
     window.fetch('https://api.foursquare.com/v2/venues/explore?client_id=LRQXKPJ21ZWDLMSIF0A3QI2H23EBUFZM2WE0WTHL2CMIILBC&client_secret=NAHU30SNZJMVDM2SBG33ZTVAP1K5LBUJOKTSH3PDTI4KCHNI&v=20180323&near=hyderabad').then(response => {
       return response.json()
@@ -67,6 +73,7 @@ class App extends Component {
     })
   }
 
+  //initMap function to initialize the map and markers
   initMap = () => {
     var markers = [], bounds = new window.google.maps.LatLngBounds(), infoWindow = new window.google.maps.InfoWindow()
     var map = new window.google.maps.Map(document.getElementById('map'), {
@@ -97,6 +104,7 @@ class App extends Component {
     })
     map.fitBounds(bounds)
 
+    //this updates the infoWindow content with streetView panorama if it is defined
     function populateInfowindow(marker, infoWindow, venue) {
       var streetViewService = new window.google.maps.StreetViewService()
       var radius = 50
@@ -130,6 +138,7 @@ class App extends Component {
     }
   }
 
+  //selects the marker on clicking a list item by trigerring click on marker
   clickList = (venue) => {
     var marker = this.state.markers.filter(marker => marker.id === venue.venue.id)[0]
     window.google.maps.event.trigger(marker,'click')
