@@ -3,13 +3,15 @@ import Sidebar from './Sidebar'
 import Navbar from './Navbar'
 import './App.css';
 
+//Main component to hold navbar, sidebar, map
 class App extends Component {
 
   state = {
-    venues: [],
-    markers: [],
-    filteredVenues: [],
-    toggleVal: true
+    venues: [], //holds venue data fetched from FourSquare API
+    markers: [], //holds all the markers on map
+    filteredVenues: [], //holds the venues after applying filter based on provided query 
+    query: '', //holds the query from filter box
+    toggleVal: true //flag to toggle sidebar and close button
   }
 
   componentDidMount() {
@@ -36,8 +38,10 @@ class App extends Component {
     index.parentNode.insertBefore(script, index)
   }
 
-  filterVenues = (query) => {
+  filterVenues = (inputVal) => {
+    var query = inputVal.trim()
     this.setState({
+      query,
       filteredVenues: query ? this.state.venues.filter(venue => venue.venue.name.toLowerCase().includes(query.toLowerCase())) : this.state.venues
     },() => console.log("Showing ", this.state.filteredVenues.length, " places."))
     this.state.markers.forEach(marker => {
@@ -135,7 +139,7 @@ class App extends Component {
     return (
       <div>
         <Navbar toggleSidebar={this.toggleSidebar} toggleVal={this.state.toggleVal}/>
-        <Sidebar filterVenues={this.filterVenues} filteredVenues={this.state.filteredVenues} clickList={this.clickList}/>
+        <Sidebar filterVenues={this.filterVenues} filteredVenues={this.state.filteredVenues} clickList={this.clickList} query={this.state.query}/>
         <main>
           <div id="map"></div>
         </main>
