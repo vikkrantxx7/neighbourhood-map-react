@@ -24,10 +24,14 @@ class App extends Component {
     this.setState({
       toggleVal: !value
     })
-    if(this.state.toggleVal)
+    if(this.state.toggleVal) {
       window.document.getElementById('sidebar').style.left = '0px'
-    else
+      window.document.getElementById('sidebar').style.visibility = 'visible'
+    }
+    else {
       window.document.getElementById('sidebar').style.left = '-400px'
+      window.document.getElementById('sidebar').style.visibility = 'hidden'
+    }
   }
 
   //open sidebar on pressing enter on focused nav button
