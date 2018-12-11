@@ -30,6 +30,22 @@ class App extends Component {
       window.document.getElementById('sidebar').style.left = '-400px'
   }
 
+  //open sidebar on pressing enter on focused nav button
+  navKeyPress = (event, value) => {
+    var code = event.keyCode || event.which
+    if(code === 13) {
+      this.toggleSidebar(value)
+    }
+  }
+
+  //zoom on the marker related to the list item on pressing enter
+  listKeyPress = (event, venue) => {
+    var code = event.keyCode || event.which
+    if(code === 13) {
+      this.clickList(venue)
+    }
+  }
+
   //load the google map api asynchronously by creating and putting script tag
   loadMap = () => {
     window.initMap = this.initMap
@@ -147,8 +163,8 @@ class App extends Component {
   render() {
     return (
       <div>
-        <Navbar toggleSidebar={this.toggleSidebar} toggleVal={this.state.toggleVal}/>
-        <Sidebar filterVenues={this.filterVenues} filteredVenues={this.state.filteredVenues} clickList={this.clickList} query={this.state.query}/>
+        <Navbar toggleSidebar={this.toggleSidebar} toggleVal={this.state.toggleVal} navKeyPress={this.navKeyPress}/>
+        <Sidebar filterVenues={this.filterVenues} filteredVenues={this.state.filteredVenues} clickList={this.clickList} query={this.state.query} listKeyPress={this.listKeyPress}/>
         <main>
           <div id="map"></div>
         </main>

@@ -9,7 +9,7 @@ class Sidebar extends Component {
                 <label>Filter: <DebounceInput debounceTimeout={500} placeholder="Type your query" onChange={(e) => {this.props.filterVenues(e.target.value)}} value={this.props.query}/></label>
                 <ul id="side-list">
                     {this.props.filteredVenues.map(filtered => {
-                        return  <li key={filtered.venue.id} onClick={() => this.props.clickList(filtered)}>
+                        return  <li tabindex="0" key={filtered.venue.id} onClick={() => this.props.clickList(filtered)} onKeyPress={(e) => {this.props.listKeyPress(e, filtered)}}>
                                     <div>
                                         <h3><strong>{filtered.venue.name}</strong></h3>
                                         <span>{filtered.venue.categories[0].name}</span>
