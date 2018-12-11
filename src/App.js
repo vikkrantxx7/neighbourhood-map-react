@@ -69,6 +69,7 @@ class App extends Component {
       center: {lat: 17.422316, lng: 78.4741774},
       zoom: 14
     });
+    console.log(this.state.venues)
     markers = this.state.venues.map(venue => {
       var marker = new window.google.maps.Marker({
         position: {lat: venue.venue.location.lat, lng: venue.venue.location.lng},

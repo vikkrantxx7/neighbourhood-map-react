@@ -27,8 +27,8 @@
 }
 
 #pano {
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
 }
 
 #navbar {
@@ -77,7 +77,7 @@
 
 #sidebar label {
   margin-left: 40px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 550
 }
 
