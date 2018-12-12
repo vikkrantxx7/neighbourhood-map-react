@@ -166,11 +166,11 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div id="app-container" aria-label="Neighbourhood Map Application">
         <Navbar toggleSidebar={this.toggleSidebar} toggleVal={this.state.toggleVal} navKeyPress={this.navKeyPress}/>
         <Sidebar filterVenues={this.filterVenues} filteredVenues={this.state.filteredVenues} clickList={this.clickList} query={this.state.query} listKeyPress={this.listKeyPress}/>
         <main>
-          <div id="map"></div>
+          <div role="application" aria-label="Map showing nearby venues" id="map"></div>
         </main>
       </div>
     );
