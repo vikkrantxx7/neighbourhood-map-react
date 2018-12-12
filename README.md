@@ -1,44 +1,45 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Neighbourhood Map Project
 
-## Available Scripts
+I just love my neighbourhood. So does everyone. Let's play with this REACT application which presents nearby awesome venues and related information using Google Maps and FourSquare APIs.
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+* [Getting Started](#gettingstarted)
+* [How To](#howto)
+* [Features](#features)
+* [Dependencies](#dependencies)
+* [Authors](#authors)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### GettingStarted
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+To run this awesome app. Just clone the repo(or fork and then clone) and in the project folder run `npm install` to install all the dependencies and then type `npm start` to start the server.
 
-### `npm test`
+### HowTo
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The homepage displays -
+* Navigation Bar
+* Map container
 
-### `npm run build`
+Google map shows a group of markers at some nearby place which is provided along with FourSquare API in `App.js`. Total number of venues returned are 30.<br>
+Venues' location is used to generate respective markers on map. To filter the markers click on hamburger button to open the sidebar where you can type in the restaurant name to filter the markers and sidebar list.<br>
+To get address info on the venue just click the marker or tap the list item and you are presented with address and StreetView Panorama of the place.<br>
+Use tabs and enter as this is totally accessible. Once you have navigated online, try offline too.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+So cool, right? So what are you waiting for ? Go - Play around !!
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+### Features
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+* Responsive- Mobile friendly.
+* Accessible- Proper focus and ARIA.
+* Offline- ServiceWorker helps to cache the request/response for offline use.
 
-### `npm run eject`
+### Dependencies
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+[create react app](https://github.com/facebook/create-react-app)- Used to bootstrap the whole project.<br>
+[react-debounce-input](https://www.npmjs.com/package/react-debounce-input)- React component that renders an Input, Textarea or other element with debounced onChange.<br>
+[FourSquare API](https://developer.foursquare.com/docs)- Used to get additional information on nearby venues.<br>
+[Google Maps API](https://developers.google.com/maps/documentation/javascript/tutorial)- Provides area map to play with. Markers, InfoWindow, Panorama view and much more.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Authors
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+* [Vikrant Sharma](https://github.com/vikkrantxx7) - Filled with lovely React.
