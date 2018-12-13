@@ -123,6 +123,7 @@ class App extends Component {
       markers
     })
     map.fitBounds(bounds)
+    window.google.maps.event.addDomListener(window, 'resize', () => {map.fitBounds(bounds)})
 
     //this updates the infoWindow content with streetView panorama if it is defined
     function populateInfowindow(marker, infoWindow, venue) {
